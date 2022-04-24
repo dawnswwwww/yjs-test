@@ -2,15 +2,19 @@ import { Logger } from '@hocuspocus/extension-logger';
 import { Server } from '@hocuspocus/server';
 import { slateNodesToInsertDelta } from '@slate-yjs/core';
 import * as Y from 'yjs';
+import db from './db.mjs'
+import initialValue from './initialValue.mjs';
 
-const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
+db.init()
+
+// const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
 
 // Setup the server
 const server = Server.configure({
   port: 1234,
 
   // Add logging
-  extensions: [new Logger()],
+  // extensions: [new Logger()],
 
   async onLoadDocument(data) {
     // Load the initial value in case the document is empty
@@ -22,8 +26,16 @@ const server = Server.configure({
 
     return data.document;
   },
+
+  // onConnect(socket) {
+    // console.log('connecting to server', socket)
+  // },
+  afterStoreDocument(data) {
+    // console.log('afterStoreDocument', data.document.connections);
+    console.log('afterStoreDocument', data.socketId);
+  }
 });
 
 // Start the server
-server.enableMessageLogging();
+// server.enableMessageLogging();
 server.listen();
