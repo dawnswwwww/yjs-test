@@ -7,6 +7,9 @@ import { Navigator } from './components/Navigator/Navigator';
 import { NotFound } from './pages/NotFound';
 import { RemoteCursorsOverlayPage } from './pages/RemoteCursorOverlay';
 import { SimplePage } from './pages/Simple';
+import * as Y from 'yjs'
+window.Y = Y;
+import './index.css';
 
 ReactDOM.render(
   <StrictMode>
